@@ -217,7 +217,15 @@ app.get('/total-loan-sanction', async (req, res) => {
     }
   });
 
-app.get('/', (req, res) => {
-  res.send('Hello From Virgo Tobaco Leaf')
-})
+app.get('/', async(req, res) => {
+    try {
+        const query = { total: { $exists: true } }; // Query to find documents with the "total" field
+        const transportPermitsWithTotal = await tpCollection.find(query).toArray();
+        res.json(transportPermitsWithTotal);
+      } catch (error) {
+        console.error('Error fetching TransportPermits with "total" field:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
+    });
+
 app.listen(process.env.PORT || 6000)
