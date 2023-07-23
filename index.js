@@ -193,16 +193,7 @@ async function run() {
       }
     });
 
-    app.get('/total-loan-sanction', async (req, res) => {
-      try {
-        const query = { total: { $exists: true } }; // Query to find documents with the "total" field
-        const totalTransportPermits = await tpCollection.countDocuments(query);
-        res.json({ totalTransportPermits });
-      } catch (error) {
-        console.error('Error fetching total TransportPermits with "total" field:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-    });
+
     
     
     
@@ -215,7 +206,16 @@ async function run() {
 }
 
 run().catch(console.dir);
-
+app.get('/total-loan-sanction', async (req, res) => {
+    try {
+      const query = { total: { $exists: true } }; // Query to find documents with the "total" field
+      const totalTransportPermits = await tpCollection.countDocuments(query);
+      res.json({ totalTransportPermits });
+    } catch (error) {
+      console.error('Error fetching total TransportPermits with "total" field:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
 
 app.get('/', (req, res) => {
   res.send('Hello From Virgo Tobaco Leaf')
